@@ -44,7 +44,7 @@ export default function AddFriendButton({}: AddFriendButtonProps) {
         <Input
           error={errors.email?.message}
           {...register("email", {})}
-          placeholder="you@example.com"
+          placeholder="dipesh@example.com"
           id="email"
         />
         <Button isLoading={addMutation.isPending} size={"sm"} className="px-4">

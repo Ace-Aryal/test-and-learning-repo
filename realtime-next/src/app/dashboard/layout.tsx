@@ -24,7 +24,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
             triggerIcon={<Menu className="h-6 w-6" />}
           />
         </div>
-        <div className="px-2 lg:px-6">{children}</div>
+        <div className="px-2 lg:px-6 lg:pt-8">{children}</div>
       </div>
     </div>
   );

@@ -13,15 +13,29 @@ import {
   SidebarMenuSub,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
+import { trpc } from "@/lib/trpc";
 import { cn, truncate } from "@/lib/utils";
-import { LogOut, UserPlus, X } from "lucide-react";
+import { LogOut, UserPlus, Users, X } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect } from "react";
+import { toast } from "sonner";
 
 export function AppSidebar() {
   const session = useSession();
   const pathname = usePathname();
+  const {
+    data: friendRequestsCount,
+    isError,
+    isLoading,
+    isSuccess,
+  } = trpc.friendRequests.getMyFriendRequestsCount.useQuery();
+  useEffect(() => {
+    if (!isLoading && isError) {
+      toast.error("Error getting friend requests");
+    }
+  }, [isError]);
   return (
     <Sidebar className="">
       <SidebarHeader className="flex flex-row justify-between items-center px-2">
@@ -54,12 +68,22 @@ export function AppSidebar() {
               </SidebarMenuButton>
             </SidebarMenuItem>
             <SidebarMenuItem>
-              <SidebarMenuButton className="p-0">
+              <SidebarMenuButton
+                className={cn("p-0", {
+                  "bg-zinc-800": pathname === "/dashboard/requests",
+                })}
+              >
                 <Link
                   href={"/dashboard/requests"}
-                  className="text-sm flex gap-2 items-center w-full px-2 py-1"
+                  className="text-sm flex gap-2 items-center w-full px-2 py-1 relative"
                 >
-                  <UserPlus className="h-4 w-4 " /> Friend Requests
+                  <Users className="h-4 w-4 " />
+                  Friend Requests{" "}
+                  {isSuccess && friendRequestsCount > 0 && (
+                    <div className="  h-4 w-4 text-xs  self-end bg-primary rounded-full flex justify-center items-center">
+                      <p>{friendRequestsCount || "0"}</p>
+                    </div>
+                  )}
                 </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
@@ -76,7 +100,7 @@ export function AppSidebar() {
         <div className="flex justify-between items-center gap-3">
           <div className="flex-1">
             <img
-              src={session.data?.user?.image ?? "/vercel.svg"}
+              src={session.data?.user?.image ?? "/pfp.png"}
               className="w-full aspect-square rounded-full"
             />
           </div>
