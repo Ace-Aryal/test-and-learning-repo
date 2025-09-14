@@ -1,6 +1,6 @@
-import { redis } from "../lib/db";
+import { redirect } from "next/navigation";
 
 export default async function Home() {
-  // await redis.set("greeting", "Hello Dipesh");
-  return <div className="text-xl text-red-500">Working with tailwind</div>;
+  redirect("/dashboard/add");
+  return null;
 }

@@ -9,4 +9,3 @@ export const trpc = createTRPCReact<AppRouter>();
 export const createContext = async () => ({});
 export type Context = Awaited<ReturnType<typeof createContext>>;
 // Instantiate t once
-export const t = initTRPC.context<Context>().create();

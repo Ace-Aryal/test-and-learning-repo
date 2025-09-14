@@ -2,7 +2,7 @@
 import Button from "@/components/ui/button";
 import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaGoogle } from "react-icons/fa";
 import { toast } from "sonner";
 
@@ -18,8 +18,7 @@ function LoginPage() {
         return;
       }
       await signIn("google");
-      toast.success("Logged in sucessfully!");
-      router.replace("/chats");
+      router.replace("/dashboard/add");
     } catch (error) {
       console.error(error);
       const errorMessage =
@@ -29,6 +28,11 @@ function LoginPage() {
       setIsLoggingIn(false);
     }
   };
+  useEffect(() => {
+    if (session.status === "authenticated") {
+      router.replace("/dashboard/add");
+    }
+  }, [session.status]);
   return (
     <div className="flex-1 w-full flex flex-col justify-center items-center">
       <div id="logo" className="w-fit mx-auto text-4xl font-bold font-sans">

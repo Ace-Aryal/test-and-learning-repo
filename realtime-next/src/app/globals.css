@@ -1,6 +1,8 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+@custom-variant dark (&:is(.dark *));
+
 :root {
   --background: oklch(0.141 0.005 285.823);
   --radius: 8px;
@@ -79,5 +81,21 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+.delay-100 {
+  animation: delay-100 200ms ease-out;
+  animation-delay: 100ms;
+}
+@keyframes delay-100 {
+  0% {
+    opacity: 0;
+  }
+  75% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
   }
 }

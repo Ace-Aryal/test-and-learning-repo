@@ -1,7 +1,8 @@
-import { t } from "@/lib/trpc";
+import { addFriendRouter } from "./add-friend";
+import { router } from "@/server/trpc";
 
-export const appRouter = t.router({
-  //   posts: postsRouter,
+export const appRouter = router({
+  add: addFriendRouter,
 });
 
 export type AppRouter = typeof appRouter;
