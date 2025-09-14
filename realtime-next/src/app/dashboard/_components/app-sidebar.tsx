@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/sidebar";
 import { cn, truncate } from "@/lib/utils";
 import { LogOut, UserPlus, X } from "lucide-react";
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -90,6 +90,7 @@ export function AppSidebar() {
           </div>
           <div className="flex-1">
             <Button
+              onClick={() => signOut({ redirect: true })}
               className="py-0 px-0 rounded-full p-3 hover:bg-zinc-800 "
               variant={"ghost"}
             >
