@@ -2,7 +2,7 @@ import { fetchRedis } from "@/helpers/redis";
 import { authOptions } from "@/lib/auth";
 import { publicProcedure, router } from "@/server/trpc";
 import { getServerSession, User } from "next-auth";
-import { ZodError } from "zod";
+import z, { string, ZodError } from "zod";
 
 export const friendRequestsRouter = router({
   getMyFriendRequests: publicProcedure.query(async ({ ctx }) => {
@@ -63,4 +63,34 @@ export const friendRequestsRouter = router({
       );
     }
   }),
+  acceptFriendRequest: publicProcedure
+    .input(z.object({ senderId: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      console.log("input: iam here");
+      try {
+        const session = await getServerSession(authOptions);
+        if (!session || !session.user.id) {
+          throw new Error("Unauthorizeed");
+        }
+        const currentUser = session.user;
+        // validate input on server
+        z.object({
+          senderId: string(),
+        }).parse(input);
+        const isAlreadyFriends = (await fetchRedis(
+          "sismember",
+          `user:${currentUser.id}:friends`,
+          input.senderId
+        )) as 0 | 1;
+        if (isAlreadyFriends !== 0) {
+          throw new Error("You are already friend with the user");
+        }
+      } catch (error) {
+        throw new Error(
+          error instanceof Error || error instanceof ZodError
+            ? error.message
+            : "Error accepting friend request"
+        );
+      }
+    }),
 });
