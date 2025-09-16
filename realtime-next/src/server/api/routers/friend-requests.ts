@@ -1,5 +1,6 @@
 import { fetchRedis } from "@/helpers/redis";
 import { authOptions } from "@/lib/auth";
+import { redis } from "@/lib/db";
 import { publicProcedure, router } from "@/server/trpc";
 import { getServerSession, User } from "next-auth";
 import z, { string, ZodError } from "zod";
@@ -85,11 +86,65 @@ export const friendRequestsRouter = router({
         if (isAlreadyFriends !== 0) {
           throw new Error("You are already friend with the user");
         }
+
+        const hasFriendRequest = (await fetchRedis(
+          "sismember",
+          `user:${currentUser.id}:incoming_friend_requests`,
+          input.senderId
+        )) as 0 | 1;
+
+        if (!hasFriendRequest) {
+          throw new Error("You have no friend request from this user");
+        }
+        const multi = redis.multi();
+
+        // 1️⃣ Add the sender to the current user's friends set
+        multi.sadd(`user:${currentUser.id}:friends`, input.senderId);
+        multi.sadd(`user:${input.senderId}:friends`, currentUser.id);
+
+        // 2️⃣ Remove the friend request
+        multi.srem(
+          `user:${currentUser.id}:incoming_friend_requests`,
+          input.senderId
+        );
+
+        // Execute both atomically
+        const acceptRes = await multi.exec();
+        if (!acceptRes.length) {
+          throw new Error("Failed to accept friend request");
+        }
+        return { success: true, data: acceptRes };
       } catch (error) {
         throw new Error(
           error instanceof Error || error instanceof ZodError
             ? error.message
             : "Error accepting friend request"
+        );
+      }
+    }),
+  rejectFriendRequest: publicProcedure
+    .input(z.object({ senderId: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      try {
+        const session = await getServerSession(authOptions);
+        if (!session || !session.user.id) {
+          throw new Error("Unauthorizeed");
+        }
+        const currentUser = session.user;
+        // validate input on server
+        z.object({
+          senderId: string(),
+        }).parse(input);
+        const rejectRes = await redis.srem(
+          `user:${currentUser.id}:incoming_friend_requests`,
+          input.senderId
+        );
+        return { success: true, data: rejectRes };
+      } catch (error) {
+        throw new Error(
+          error instanceof Error || error instanceof ZodError
+            ? error.message
+            : "Error rejecting friend request"
         );
       }
     }),

@@ -43,7 +43,7 @@ export default function FriendRequestPage() {
       <h1 className="font-bold text-4xl sm:text-5xl mb-8">Friend Requests</h1>
       <div className="space-y-1">
         {[...friendRequests].map((request, index) => (
-          <FriendRequstRow request={request} index={index} />
+          <FriendRequstRow key={request.id} request={request} index={index} />
         ))}
       </div>
     </div>
@@ -71,7 +71,22 @@ function FriendRequstRow({
       },
       onSuccess: () => {
         utils.friendRequests.getMyFriendRequests.invalidate();
+        utils.friendRequests.getMyFriendRequestsCount.invalidate();
+        // also invalidate chat list later
         toast.success("Friend request accepted");
+      },
+    });
+  const { mutate: reject, isPending: isRejecting } =
+    trpc.friendRequests.rejectFriendRequest.useMutation({
+      onError: (error) => {
+        toast.error(error.message);
+      },
+      onSuccess: () => {
+        // also invalidate chat list later
+        utils.friendRequests.getMyFriendRequests.invalidate();
+        utils.friendRequests.getMyFriendRequestsCount.invalidate();
+
+        toast.success("Friend request rejected");
       },
     });
   return (
@@ -95,8 +110,12 @@ function FriendRequstRow({
         >
           <Check className="rounded-full h-6 w-6 p-1" />
         </Button>
-        <Button className="bg-destructive p-0 aspect-square h-8 sm:h-6  rounded-full hover:bg-destructive/90">
-          <X className="  rounded-full h-6 w-6 p-1" />
+        <Button
+          isLoading={isRejecting}
+          onClick={() => reject({ senderId: request.id })}
+          className="bg-destructive p-0 aspect-square h-8 sm:h-6  rounded-full hover:bg-destructive/90"
+        >
+          <X className="rounded-full h-6 w-6 p-1" />
         </Button>
       </div>
     </div>

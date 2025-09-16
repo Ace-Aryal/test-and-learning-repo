@@ -46,6 +46,15 @@ export const addFriendRouter = router({
           `user:${idToAdd}:incoming_friend_requests`,
           session.user.id
         )) as 0 | 1;
+        const isAlreadyOnMyRequest = await fetchRedis(
+          "sismember",
+          `user:${session.user.id}:incoming_friend_requests`,
+          idToAdd
+        );
+        if (isAlreadyOnMyRequest) {
+          console.log(isAlreadyOnMyRequest);
+          throw new Error("Friend request is already in your inbox");
+        }
         if (isAlredayAdded) {
           console.log(isAlredayAdded);
           throw new Error("Friend request already sent");
@@ -56,9 +65,7 @@ export const addFriendRouter = router({
           `user:${session.user.id}:friends`,
           idToAdd
         )) as 0 | 1;
-        if (isAlredayAdded) {
-          throw new Error("Friend request already sent");
-        }
+
         if (isAlreadyFriends) {
           throw new Error("You are already friend with the user");
         }
