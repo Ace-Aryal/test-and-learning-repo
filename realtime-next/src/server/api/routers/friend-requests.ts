@@ -135,6 +135,14 @@ export const friendRequestsRouter = router({
         z.object({
           senderId: string(),
         }).parse(input);
+        const hasFriendRequest = await fetchRedis(
+          "sismember",
+          `user:${currentUser.id}:incoming_friend_requests`,
+          input.senderId
+        );
+        if (!hasFriendRequest) {
+          throw new Error("You have no friend request from this user");
+        }
         const rejectRes = await redis.srem(
           `user:${currentUser.id}:incoming_friend_requests`,
           input.senderId
