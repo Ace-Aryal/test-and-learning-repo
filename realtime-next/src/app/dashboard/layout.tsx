@@ -9,12 +9,9 @@ type DashboardLayoutProps = {
 export default function DashboardLayout({ children }: DashboardLayoutProps) {
   const { open } = useSidebar();
   return (
-    <div className="flex gap-2 w-full flex-1">
+    <div className="flex  w-full flex-1">
       <AppSidebar />
       <div className="relative flex-1 w-full">
-        {open ? null : (
-          <SidebarTrigger className="absolute  top-2 delay-100 hidden lg:inline-flex  hover:bg-zinc-800" />
-        )}
         <div className="sticky lg:hidden top-0 inset-x-0 border-b py-2 border-gray-800 backdrop-blur bg-transparent w-full px-2 sm:px-4 flex justify-between items-center">
           <h2 className="text-lg font-bold text-primary">
             ACE<span className="text-white">CHATS</span>
@@ -24,7 +21,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
             triggerIcon={<Menu className="h-6 w-6" />}
           />
         </div>
-        <div className="px-2 lg:px-6 lg:pt-8">{children}</div>
+        <div className=" lg:pt-8">{children}</div>
       </div>
     </div>
   );

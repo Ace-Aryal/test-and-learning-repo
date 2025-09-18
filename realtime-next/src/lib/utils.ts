@@ -10,3 +10,8 @@ export function truncate(string: string, maxLength: number) {
     ? string.slice(0, maxLength + 1) + "..."
     : string.slice(0, maxLength + 1);
 }
+
+export const constructChatHref = (id1: string, id2: string) => {
+  const sortedIds = [id1, id2].sort();
+  return `${sortedIds.join("--")}`;
+};

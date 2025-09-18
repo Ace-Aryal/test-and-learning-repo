@@ -92,7 +92,7 @@ function FriendRequstRow({
   return (
     <div
       key={index}
-      className="flex items-center shadow-xs  justify-between p-1  rounded-lg shadow-primary/60 max-w-md"
+      className="flex px-2 items-center shadow-xs  justify-between p-1  rounded-lg shadow-primary/60 max-w-md"
     >
       <div className="flex items-center space-x-3">
         <img

@@ -88,4 +88,34 @@ export const addFriendRouter = router({
         );
       }
     }),
+  getFriends: publicProcedure.query(async ({ ctx }) => {
+    try {
+      const session = await getServerSession(authOptions);
+      if (!session || !session.user.id) {
+        throw new Error("Unauthorizeed");
+      }
+      const friendsIds = (await fetchRedis(
+        "smembers",
+        `user:${session.user.id}:friends`
+      )) as string[];
+      const friends = await Promise.all(
+        friendsIds.map(async (friendId) => {
+          const friend = (await fetchRedis(
+            "get",
+            `user:${friendId}`
+          )) as string;
+          const parsedFriend = JSON.parse(friend) as User;
+          return parsedFriend;
+        })
+      );
+      console.log(friends,"friends")
+      return { success: true, data: friends };
+    } catch (error) {
+      throw new Error(
+        error instanceof Error || error instanceof ZodError
+          ? error.message
+          : "Error getting friends"
+      );
+    }
+  }),
 });

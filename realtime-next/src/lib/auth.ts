@@ -1,10 +1,10 @@
 import GoogleProvider from "next-auth/providers/google";
-import FacebookProvider from "next-auth/providers/facebook";
 import { NextAuthOptions } from "next-auth";
 import { UpstashRedisAdapter } from "@next-auth/upstash-redis-adapter";
 import { redis } from "./db";
 const getGoogleClient = () => {
   const clientId = process.env.GOOGLE_CLIENT_ID;
+  console.log(clientId, "client id");
   if (!clientId) {
     throw new Error("Google client id not found");
   }

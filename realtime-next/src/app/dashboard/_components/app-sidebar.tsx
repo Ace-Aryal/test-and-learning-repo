@@ -13,39 +13,50 @@ import {
   SidebarMenuSub,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
+import { Skeleton } from "@/components/ui/skeleton";
 import { trpc } from "@/lib/trpc";
-import { cn, truncate } from "@/lib/utils";
+import { cn, constructChatHref, truncate } from "@/lib/utils";
 import { LogOut, UserPlus, Users, X } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useEffect } from "react";
+import { notFound, usePathname, useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import { UrlObject } from "url";
 
 export function AppSidebar() {
   const session = useSession();
   const pathname = usePathname();
+  const router = useRouter();
+  const [unseenMessages, setUnseenMessages] = useState<Message[]>([]);
   const {
     data: friendRequestsCount,
     isError,
     isLoading,
     isSuccess,
   } = trpc.friendRequests.getMyFriendRequestsCount.useQuery();
+  const friends = trpc.add.getFriends.useQuery();
   useEffect(() => {
     if (!isLoading && isError) {
       toast.error("Error getting friend requests");
     }
   }, [isError]);
+
+  useEffect(() => {
+    if (pathname.includes("chat")) {
+      setUnseenMessages((prev) =>
+        prev.filter((msg) => !pathname.includes(msg.senderId))
+      );
+    }
+  }, [pathname]);
+  const user = session?.data?.user;
+
   return (
     <Sidebar className="">
       <SidebarHeader className="flex flex-row justify-between items-center px-2">
         <h2 className="text-lg font-semibold tracking-tight text-bold text-primary">
           ACE<span className="text-foreground">CHATS</span>
         </h2>
-        <SidebarTrigger
-          triggerIcon={<X />}
-          className="hover:bg-zinc-800 hidden lg:inline-flex"
-        />
       </SidebarHeader>
       <SidebarContent className="py-4  ">
         <SidebarGroup>
@@ -93,15 +104,60 @@ export function AppSidebar() {
           <SidebarGroupLabel className="text-xs text-gray-400 px-0 ">
             Chats
           </SidebarGroupLabel>
+          <SidebarMenu>
+            {friends.data?.success && session.data?.user && user
+              ? friends.data.data.length > 0
+                ? friends.data.data.sort().map(({ name, id, image }) => {
+                    const unseenMessagesCount = unseenMessages.filter(
+                      (msg) => msg.receiverId === session.data.user.id
+                    ).length;
+                    return (
+                      <Link
+                        key={id}
+                        href={
+                          `/dashboard/chats/${constructChatHref(
+                            user.id,
+                            id
+                          )}` as __next_route_internal_types__.RouteImpl<`/dashboard/chats/${string}`>
+                        }
+                      >
+                        <SidebarMenuItem>
+                          <SidebarMenuButton
+                            className={cn("p-0 px-2 cursor-pointer", {
+                              "bg-zinc-800": pathname === `/dashboard/chats/`,
+                            })}
+                          >
+                            <div className="flex gap-2 items-center">
+                              <img
+                                className="h-5 w-5 rounded-full"
+                                src={image || "/pfp.png"}
+                              />
+                              {name}
+                            </div>
+                          </SidebarMenuButton>
+                        </SidebarMenuItem>
+                      </Link>
+                    );
+                  })
+                : "You have no friends"
+              : friends.isLoading
+              ? Array.from({ length: 5 }).map((_, index) => (
+                  <SidebarMenuButton className="" key={index}>
+                    {" "}
+                    <Skeleton className="h-7 w-full" />
+                  </SidebarMenuButton>
+                ))
+              : "Error fetching friends"}
+          </SidebarMenu>
         </SidebarGroup>
         <SidebarGroup />
       </SidebarContent>
       <SidebarFooter>
         <div className="flex justify-between items-center gap-3">
-          <div className="flex-1">
+          <div className="flex-2">
             <img
               src={session.data?.user?.image ?? "/pfp.png"}
-              className="w-full aspect-square rounded-full"
+              className="w-full min-w-7 aspect-square rounded-full"
             />
           </div>
           <div className="flex-4">
@@ -115,7 +171,7 @@ export function AppSidebar() {
           <div className="flex-1">
             <Button
               onClick={() => signOut({ redirect: true })}
-              className="py-0 px-0 rounded-full p-3 hover:bg-zinc-800 "
+              className=" rounded-lg p-2   hover:bg-zinc-800 "
               variant={"ghost"}
             >
               <LogOut className="w-5 h-5" />

@@ -1,6 +1,6 @@
 import { fetchRedis } from "@/helpers/redis";
 import { publicProcedure, router } from "@/server/trpc";
-import z from "zod";
+import z, { ZodError } from "zod";
 
 export const userRouter = router({
   getUser: publicProcedure
@@ -10,14 +10,18 @@ export const userRouter = router({
         z.object({
           userId: z.string(),
         }).parse(input);
-        const user = await fetchRedis("get", `user:${input.userId}`);
-        return { success: true, data: user };
+        const user = (await fetchRedis(
+          "get",
+          `user:${input.userId}`
+        )) as string;
+        console.log(user, "user in user router");
+        return { success: true, data: JSON.parse(user) as User };
       } catch (error) {
-        return {
-          success: false,
-          error:
-            error instanceof Error ? error.message : "Error in getting user",
-        };
+        throw new Error(
+          error instanceof Error || error instanceof ZodError
+            ? error.message
+            : "Error getting user"
+        );
       }
     }),
 });
