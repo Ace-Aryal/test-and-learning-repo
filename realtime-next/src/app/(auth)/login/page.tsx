@@ -14,7 +14,7 @@ function LoginPage() {
     try {
       setIsLoggingIn(true);
       if (session.status === "authenticated") {
-        router.replace("/chats");
+        router.replace("/dashboard/add");
         return;
       }
       await signIn("google");
