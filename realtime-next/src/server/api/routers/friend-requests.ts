@@ -46,7 +46,6 @@ export const friendRequestsRouter = router({
     try {
       // same authorization headers for auth from mobile and expo
       const session = await getServerSession(authOptions);
-      console.log(session, "session");
       if (!session || !session.user.id) {
         throw new Error("Unauthorizeed");
       }
@@ -67,7 +66,6 @@ export const friendRequestsRouter = router({
   acceptFriendRequest: publicProcedure
     .input(z.object({ senderId: z.string() }))
     .mutation(async ({ ctx, input }) => {
-      console.log("input: iam here");
       try {
         const session = await getServerSession(authOptions);
         if (!session || !session.user.id) {

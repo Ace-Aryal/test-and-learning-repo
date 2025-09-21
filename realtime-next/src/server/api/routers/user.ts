@@ -14,7 +14,6 @@ export const userRouter = router({
           "get",
           `user:${input.userId}`
         )) as string;
-        console.log(user, "user in user router");
         return { success: true, data: JSON.parse(user) as User };
       } catch (error) {
         throw new Error(

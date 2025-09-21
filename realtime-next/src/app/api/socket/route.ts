@@ -9,7 +9,6 @@ export async function POST(req: Request) {
     text: message,
     createdAt: new Date().toISOString(),
   });
-  console.log(res, "res");
 
   return NextResponse.json({ success: true });
 }

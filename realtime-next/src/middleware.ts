@@ -3,7 +3,6 @@ import { withAuth } from "next-auth/middleware";
 export default withAuth({
   callbacks: {
     authorized: ({ token }) => {
-      console.log("middleware triggered for token:", token);
       return !!token;
     },
   },

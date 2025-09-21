@@ -29,7 +29,6 @@ export const addFriendRouter = router({
         const data = (await RESTResponse.json()) as { result: string | null };
         // get own session
         const session = await getServerSession(authOptions);
-        console.log(session, "session");
         if (!session || !session.user.id) {
           throw new Error("Unauthorized");
         }
@@ -52,11 +51,9 @@ export const addFriendRouter = router({
           idToAdd
         );
         if (isAlreadyOnMyRequest) {
-          console.log(isAlreadyOnMyRequest);
           throw new Error("Friend request is already in your inbox");
         }
         if (isAlredayAdded) {
-          console.log(isAlredayAdded);
           throw new Error("Friend request already sent");
         }
         // check redis db if already friend
@@ -74,11 +71,9 @@ export const addFriendRouter = router({
           `user:${idToAdd}:incoming_friend_requests`,
           session.user.id
         );
-        console.log(res, "res");
         if (!(res > 0)) {
           throw new Error("Failed to send request");
         }
-        console.log(data);
         return { success: true, data: res };
       } catch (error) {
         throw new Error(
@@ -108,7 +103,6 @@ export const addFriendRouter = router({
           return parsedFriend;
         })
       );
-      console.log(friends,"friends")
       return { success: true, data: friends };
     } catch (error) {
       throw new Error(

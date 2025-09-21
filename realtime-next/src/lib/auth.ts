@@ -4,7 +4,6 @@ import { UpstashRedisAdapter } from "@next-auth/upstash-redis-adapter";
 import { redis } from "./db";
 const getGoogleClient = () => {
   const clientId = process.env.GOOGLE_CLIENT_ID;
-  console.log(clientId, "client id");
   if (!clientId) {
     throw new Error("Google client id not found");
   }
@@ -30,7 +29,6 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async jwt({ token, user }) {
       // On first sign-in
-      console.log(user, "user");
       if (user) {
         token.id = user.id;
         token.name = user.name;
@@ -39,7 +37,6 @@ export const authOptions: NextAuthOptions = {
       } else {
         // On subsequent requests, optionally refresh from Redis
         const dbUser = (await redis.get(`user:${token.id}`)) as User | null;
-        console.log(dbUser, "db user");
         if (dbUser) {
           token.id = dbUser.id;
           token.name = dbUser.name;
@@ -50,14 +47,12 @@ export const authOptions: NextAuthOptions = {
       return token;
     },
     async session({ session, token }) {
-      console.log("token", token);
       if (token) {
         session.user.id = token.id;
         session.user.name = token.name;
         session.user.email = token.email;
         session.user.image = token.picture;
       }
-      console.log("session", session);
       return session;
     },
   },

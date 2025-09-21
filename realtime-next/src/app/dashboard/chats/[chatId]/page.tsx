@@ -5,6 +5,8 @@ import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { notFound, useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import Messages from "../_components/message";
+import ChatInput from "../_components/chat-input";
 
 export default function ChatPage() {
   const params = useParams<{ chatId: string }>();
@@ -16,8 +18,10 @@ export default function ChatPage() {
   const { data: chatPartner, isSuccess } = trpc.user.getUser.useQuery({
     userId: chatPartnerId,
   });
+  const { data: initailMessages } = trpc.chats.getInitialChatMessages.useQuery({
+    chatId,
+  });
   useEffect(() => {
-    console.log(session, "session");
     if (session.status !== "loading" && session.status === "unauthenticated") {
       notFound();
     }
@@ -37,10 +41,10 @@ export default function ChatPage() {
     }
   }, [session.status]);
   return (
-    <div className="flex w-full flex-col flex-1 justify-center -mt-8">
+    <div className="flex w-full h-full flex-col flex-1 justify-center max-h-[96vh] my-auto.  relative">
       <section
         id="chat-header"
-        className="flex items-center px-4 border-b border-gray-700  "
+        className="flex items-center sticky top-12 sm:top-0 px-4 border-b border-gray-700 backdrop-blur-3xl "
       >
         {isSuccess && chatPartner.data ? (
           <div className="flex items-center ">
@@ -69,6 +73,14 @@ export default function ChatPage() {
             </div>
           </div>
         )}
+      </section>
+      <section id="chat-area" className="flex flex-1 h-full w-full flex-col">
+        <Messages
+          friendImage={chatPartner?.data.image}
+          inititalMessages={initailMessages ? initailMessages : []}
+          currentUser={session.data?.user}
+        />
+        <ChatInput chatPartner={chatPartner?.data} chatId={chatId} />
       </section>
     </div>
   );

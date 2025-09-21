@@ -37,7 +37,6 @@ export default function FriendRequestPage() {
       </div>
     );
   }
-  console.log(friendRequests, "requests");
   return (
     <div className="px-1  mt-2 space-y-2">
       <h1 className="font-bold text-4xl sm:text-5xl mb-8">Friend Requests</h1>

@@ -16,7 +16,6 @@ export default function ChatMessages() {
     channel.bind("new-message", (data: any) => {
       setMessages((prev) => {
         const updated = [...prev, data];
-        console.log("Received:", updated);
         return updated;
       });
     });
