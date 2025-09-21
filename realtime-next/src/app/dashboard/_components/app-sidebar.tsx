@@ -27,6 +27,7 @@ import { UrlObject } from "url";
 export function AppSidebar() {
   const session = useSession();
   const pathname = usePathname();
+
   const router = useRouter();
   const [unseenMessages, setUnseenMessages] = useState<Message[]>([]);
   const {
@@ -108,6 +109,7 @@ export function AppSidebar() {
             {friends.data?.success && session.data?.user && user
               ? friends.data.data.length > 0
                 ? friends.data.data.sort().map(({ name, id, image }) => {
+                    const isActive = pathname.split("/")[3]?.includes(id);
                     const unseenMessagesCount = unseenMessages.filter(
                       (msg) => msg.receiverId === session.data.user.id
                     ).length;
@@ -124,7 +126,7 @@ export function AppSidebar() {
                         <SidebarMenuItem>
                           <SidebarMenuButton
                             className={cn("p-0 px-2 cursor-pointer", {
-                              "bg-zinc-800": pathname === `/dashboard/chats/`,
+                              "bg-zinc-800": isActive,
                             })}
                           >
                             <div className="flex gap-2 items-center">
