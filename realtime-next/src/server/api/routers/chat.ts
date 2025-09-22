@@ -4,6 +4,7 @@ import { publicProcedure, router } from "@/server/trpc";
 import { getServerSession } from "next-auth";
 import z, { ZodError } from "zod";
 import { nanoid } from "nanoid";
+import { pusherServer } from "@/lib/pusher";
 export const chatRouter = router({
   getInitialChatMessages: publicProcedure
     .input(z.object({ chatId: z.string() }))
@@ -84,6 +85,15 @@ export const chatRouter = router({
         if (!res) {
           throw new Error("Failed to send message");
         }
+        await pusherServer.trigger(
+          `chat-channel-${chatId}`,
+          "new-message",
+          message
+        );
+        await pusherServer.trigger(`chats-channel`, "new-message", {
+          senderId: user.id,
+        });
+
         return res;
       } catch (error) {
         console.error(error);

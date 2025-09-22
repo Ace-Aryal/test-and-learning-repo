@@ -14,6 +14,7 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar";
 import { Skeleton } from "@/components/ui/skeleton";
+import { pusherClient } from "@/lib/pusher";
 import { trpc } from "@/lib/trpc";
 import { cn, constructChatHref, truncate } from "@/lib/utils";
 import { LogOut, UserPlus, Users, X } from "lucide-react";
@@ -29,7 +30,7 @@ export function AppSidebar() {
   const pathname = usePathname();
 
   const router = useRouter();
-  const [unseenMessages, setUnseenMessages] = useState<Message[]>([]);
+  // const [unseenMessages, setUnseenMessages] = useState<string[]>([]);
   const {
     data: friendRequestsCount,
     isError,
@@ -43,13 +44,14 @@ export function AppSidebar() {
     }
   }, [isError]);
 
-  useEffect(() => {
-    if (pathname.includes("chat")) {
-      setUnseenMessages((prev) =>
-        prev.filter((msg) => !pathname.includes(msg.senderId))
-      );
-    }
-  }, [pathname]);
+  // useEffect(() => {
+  //   const channel = pusherClient.subscribe(`chats-channel`);
+  //   channel.bind("new-message", (data: { senderId: string }) => {
+  //     console.log(data, unseenMessages, "data");
+  //     setUnseenMessages((prev) => [...prev, data.senderId]);
+  //   });
+  //   return () => channel.unsubscribe();
+  // }, []);
   const user = session?.data?.user;
 
   return (
@@ -110,9 +112,7 @@ export function AppSidebar() {
               ? friends.data.data.length > 0
                 ? friends.data.data.sort().map(({ name, id, image }) => {
                     const isActive = pathname.split("/")[3]?.includes(id);
-                    const unseenMessagesCount = unseenMessages.filter(
-                      (msg) => msg.receiverId === session.data.user.id
-                    ).length;
+
                     return (
                       <Link
                         key={id}
@@ -135,6 +135,11 @@ export function AppSidebar() {
                                 src={image || "/pfp.png"}
                               />
                               {name}
+                              {/* {!!unseenMessagesCount && (
+                                <p className="  h-4 w-4 text-xs  self-end bg-primary rounded-full flex justify-center items-center">
+                                  {unseenMessagesCount}
+                                </p>
+                              )} */}
                             </div>
                           </SidebarMenuButton>
                         </SidebarMenuItem>

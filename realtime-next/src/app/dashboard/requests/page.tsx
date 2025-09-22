@@ -1,19 +1,54 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { trpc } from "@/lib/trpc";
 import { Check, X } from "lucide-react";
 import { Loader2 } from "lucide-react";
 import Button from "@/components/ui/button";
 import { toast } from "sonner";
+import { pusherClient } from "@/lib/pusher";
+import { useSession } from "next-auth/react";
+import { User } from "next-auth";
+import { Tilt_Prism } from "next/font/google";
 
 export default function FriendRequestPage() {
   const {
     isLoading,
     isError,
-    data: friendRequests,
+    data: initialFriendRequests,
   } = trpc.friendRequests.getMyFriendRequests.useQuery();
+  const [friendRequests, setFriendRequests] = React.useState<User[]>([]);
+  const user = useSession();
+  const utils = trpc.useUtils();
+  useEffect(() => {
+    // Init client
+    if (user.data?.user.id) {
+      const channel = pusherClient.subscribe(
+        `user-${user.data.user.id}-incoming_friend_requests`
+      );
+      console.log(channel, "channel");
+      channel.bind("new-friend-requests", (data: User) => {
+        setFriendRequests((prev) => [...prev, data]);
+        utils.friendRequests.getMyFriendRequestsCount.invalidate();
+        utils.add.getFriends.invalidate();
+      });
+      channel.bind("remove-friend-request", (data: { senderId: string }) => {
+        setFriendRequests((prev) =>
+          prev.filter((fr) => fr.id !== data.senderId)
+        );
+        utils.friendRequests.getMyFriendRequestsCount.invalidate();
+        utils.add.getFriends.invalidate();
+      });
 
+      return () => {
+        channel.unbind_all();
+        channel.unsubscribe();
+      };
+    }
+  }, [user.data?.user.id]);
+  useEffect(() => {
+    setFriendRequests(initialFriendRequests ?? []);
+  }, [initialFriendRequests]);
   if (isLoading) {
     return (
       <div className="flex justify-center items-center h-[50vh]">
@@ -71,6 +106,7 @@ function FriendRequstRow({
       onSuccess: () => {
         utils.friendRequests.getMyFriendRequests.invalidate();
         utils.friendRequests.getMyFriendRequestsCount.invalidate();
+        utils.add.getFriends.invalidate();
         // also invalidate chat list later
         toast.success("Friend request accepted");
       },
@@ -88,6 +124,7 @@ function FriendRequstRow({
         toast.success("Friend request rejected");
       },
     });
+
   return (
     <div
       key={index}

@@ -5,6 +5,8 @@ import { User } from "next-auth";
 import { format, isToday } from "date-fns";
 import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import { useParams, useRouter } from "next/navigation";
+import { pusherClient } from "@/lib/pusher";
 interface MessagesProps {
   inititalMessages: Message[];
   currentUser: User | undefined;
@@ -17,7 +19,7 @@ export default function Messages({
 }: MessagesProps) {
   const [messages, setMessages] = useState<Message[]>([]);
   const scrollDownRef = useRef<HTMLDivElement | null>(null);
-
+  const { chatId } = useParams<{ chatId: string }>();
   const formatTimestamp = (timestamp: number) => {
     const date = new Date(timestamp);
 
@@ -30,6 +32,22 @@ export default function Messages({
   useEffect(() => {
     setMessages(inititalMessages);
   }, [inititalMessages]);
+  const router = useRouter();
+  useEffect(() => {
+    // Init client
+
+    const channel = pusherClient.subscribe(`chat-channel-${chatId}`);
+
+    channel.bind("new-message", (data: Message) => {
+      setMessages((prev) => [data, ...prev]);
+    });
+    // router.refresh();
+
+    return () => {
+      channel.unbind_all();
+      channel.unsubscribe();
+    };
+  }, []);
   if (!currentUser || !messages) {
     return (
       <div className="flex-1 h-full flex justify-start items-end">

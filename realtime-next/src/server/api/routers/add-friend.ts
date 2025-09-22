@@ -1,6 +1,7 @@
 import { fetchRedis } from "@/helpers/redis";
 import { authOptions } from "@/lib/auth";
 import { redis } from "@/lib/db";
+import { pusherServer } from "@/lib/pusher";
 import { addFriendSchema } from "@/lib/validations/add-friend";
 import { publicProcedure, router } from "@/server/trpc";
 import { getServerSession } from "next-auth";
@@ -74,6 +75,13 @@ export const addFriendRouter = router({
         if (!(res > 0)) {
           throw new Error("Failed to send request");
         }
+        await pusherServer.trigger(
+          `user-${idToAdd}-incoming_friend_requests`,
+          "new-friend-requests",
+          {
+            ...session.user,
+          }
+        );
         return { success: true, data: res };
       } catch (error) {
         throw new Error(

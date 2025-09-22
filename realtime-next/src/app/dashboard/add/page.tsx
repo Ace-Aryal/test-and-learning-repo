@@ -1,5 +1,6 @@
 import React from "react";
 import AddFriendButton from "./_components/add-friend-button";
+import Button from "@/components/ui/button";
 
 export default function AddFriendPage() {
   return (

@@ -1,8 +1,10 @@
 import { fetchRedis } from "@/helpers/redis";
 import { authOptions } from "@/lib/auth";
 import { redis } from "@/lib/db";
+import { pusherServer } from "@/lib/pusher";
 import { publicProcedure, router } from "@/server/trpc";
-import { getServerSession, User } from "next-auth";
+import { User } from "next-auth";
+import { getServerSession } from "next-auth";
 import z, { string, ZodError } from "zod";
 
 export const friendRequestsRouter = router({
@@ -111,6 +113,13 @@ export const friendRequestsRouter = router({
         if (!acceptRes.length) {
           throw new Error("Failed to accept friend request");
         }
+        pusherServer.trigger(
+          `user-${currentUser.id}-incoming_friend_requests`,
+          "remove-friend-request",
+          {
+            senderId: input.senderId,
+          }
+        );
         return { success: true, data: acceptRes };
       } catch (error) {
         throw new Error(
@@ -144,6 +153,13 @@ export const friendRequestsRouter = router({
         const rejectRes = await redis.srem(
           `user:${currentUser.id}:incoming_friend_requests`,
           input.senderId
+        );
+        pusherServer.trigger(
+          `user-${currentUser.id}-incoming_friend_requests`,
+          "remove-friend-request",
+          {
+            senderId: input.senderId,
+          }
         );
         return { success: true, data: rejectRes };
       } catch (error) {
