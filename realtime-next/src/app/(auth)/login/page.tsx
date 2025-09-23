@@ -14,11 +14,11 @@ function LoginPage() {
     try {
       setIsLoggingIn(true);
       if (session.status === "authenticated") {
-        router.replace("/dashboard/add");
+        router.replace("/dashboard");
         return;
       }
       await signIn("google");
-      router.replace("/dashboard/add");
+      router.replace("/dashboard");
     } catch (error) {
       console.error(error);
       const errorMessage =
@@ -30,7 +30,7 @@ function LoginPage() {
   };
   useEffect(() => {
     if (session.status === "authenticated") {
-      router.replace("/dashboard/add");
+      router.replace("/dashboard");
     }
   }, [session.status]);
   return (

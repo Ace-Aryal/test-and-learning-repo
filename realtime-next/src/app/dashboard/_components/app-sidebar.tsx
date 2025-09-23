@@ -17,7 +17,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { pusherClient } from "@/lib/pusher";
 import { trpc } from "@/lib/trpc";
 import { cn, constructChatHref, truncate } from "@/lib/utils";
-import { LogOut, UserPlus, Users, X } from "lucide-react";
+import { Clock, LogOut, UserPlus, Users, X } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { notFound, usePathname, useRouter } from "next/navigation";
@@ -62,6 +62,22 @@ export function AppSidebar() {
         </h2>
       </SidebarHeader>
       <SidebarContent className="py-4  ">
+        <SidebarGroup>
+          <SidebarMenuItem className="">
+            <SidebarMenuButton
+              className={cn("p-0", {
+                "bg-zinc-800": pathname === "/dashboard",
+              })}
+            >
+              <Link
+                href={"/dashboard"}
+                className="text-sm flex gap-2 items-center w-full px-2 py-1"
+              >
+                <Clock className="h-4 w-4 " /> Recents
+              </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarGroup>
         <SidebarGroup>
           <SidebarGroupLabel className="text-xs text-gray-400 px-0">
             Overview

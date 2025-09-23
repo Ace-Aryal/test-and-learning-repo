@@ -76,7 +76,7 @@ export default function ChatPage() {
       </section>
       <section id="chat-area" className="flex flex-1 h-full w-full flex-col">
         <Messages
-          friendImage={chatPartner?.data.image}
+          friendImage={chatPartner?.data?.image}
           inititalMessages={initailMessages ? initailMessages : []}
           currentUser={session.data?.user}
         />
