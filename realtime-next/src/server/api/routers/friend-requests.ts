@@ -19,6 +19,7 @@ export const friendRequestsRouter = router({
         "smembers",
         `user:${session.user.id}:incoming_friend_requests`
       )) as String[];
+      console.log(friendRequestsIDs, "friendRequestsIDs");
       const friendRequests = await Promise.all(
         friendRequestsIDs.map(async (id) => {
           try {
@@ -55,6 +56,7 @@ export const friendRequestsRouter = router({
         "scard",
         `user:${session.user.id}:incoming_friend_requests`
       )) as number;
+
       return friendRequestsCount;
     } catch (error) {
       console.error(error);

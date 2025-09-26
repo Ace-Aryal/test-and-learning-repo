@@ -64,7 +64,7 @@ export default function FriendRequestPage() {
       </div>
     );
   }
-
+  console.log(friendRequests, "friendRequests");
   if (!friendRequests || friendRequests.length === 0) {
     return (
       <div className="text-center text-gray-500 p-4">
