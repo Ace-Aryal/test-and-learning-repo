@@ -1,0 +1,28 @@
+// apps/mobile/tsconfig.json (Final)
+{
+  // 1. 🎯 FIX: Replace the Expo base with the relative path to our shared config.
+  // We use our custom "expo.json" config which extends the root tsconfig.json.
+  "extends": "../../packages/tsconfig/expo.json",
+
+  "compilerOptions": {
+    "outDir": "dist", // Keep output clean
+    "baseUrl": ".", // Ensures paths below work correctly
+
+    // We will inherit 'strict: true' from our shared base,
+    // but you can explicitly add it here if needed: "strict": true,
+
+    // 2. 🎯 Modify paths to include the shared API package resolution.
+    "paths": {
+      // Original path (if you use a source dir like 'src')
+      "@/*": ["./*"],
+      // Add the explicit path for our shared API workspace package
+      "@monorepo/api/*": ["../../packages/api/src/*"],
+      "@monorepo/api": ["../../packages/api/src"]
+    }
+  },
+  "include": ["**/*.ts", "**/*.tsx", ".expo/types/**/*.ts", "expo-env.d.ts"],
+  "exclude": ["node_modules"],
+
+  // 3. 🎯 Add the crucial monorepo project reference.
+  "references": [{ "path": "../../packages/api" }]
+}
