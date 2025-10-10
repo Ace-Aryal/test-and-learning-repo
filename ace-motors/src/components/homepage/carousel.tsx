@@ -117,7 +117,7 @@ export default function FullscreenCarousel({
 
       <Button
         onClick={() => emblaApi?.scrollNext()}
-        className="absolute top-1/2 right-4 lg:right-8 xl:right-12 -translate-y-1/2 z-20 rounded-full  h-8 w-8  hidden md:inline-flex"
+        className="absolute top-1/2 right-4 lg:right-12 xl:right-16 -translate-y-1/2 z-20 rounded-full  h-8 w-8  hidden md:inline-flex"
         variant="secondary"
       >
         <ArrowRight className=" w-4 h-4" />
