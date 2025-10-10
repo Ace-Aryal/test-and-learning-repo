@@ -63,42 +63,44 @@ export default function FullscreenCarousel({
               <div className="absolute inset-0 -z-10">{card.background}</div>
 
               {/* Overlay */}
-              <div className="absolute inset-0 bg-black/40 -z-0" />
+              <div className="absolute inset-0 bg-black/40 -z-0 " />
 
               {/* Content */}
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6 }}
-                className="relative z-10 max-w-md px-2 sm:px-6 sm:pl-16 2xl:pl-20 text-white"
-              >
-                <motion.h2
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.2, duration: 0.6 }}
-                  className="text-5xl font-bold mb-4"
-                >
-                  {card.title}
-                </motion.h2>
-
-                <motion.p
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.3, duration: 0.6 }}
-                  className="text-lg mb-8 text-gray-200"
-                >
-                  {card.description}
-                </motion.p>
-
+              <div className="max-w-7xl mx-auto w-full">
                 <motion.div
-                  initial={{ opacity: 0, y: 20 }}
+                  initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.5, duration: 0.6 }}
-                  className="flex items-center gap-4"
+                  transition={{ duration: 0.6 }}
+                  className="relative z-10 max-w-md px-2 sm:px-6  sm:pl-16 lg:pl-20 2xl:pl-20 text-white"
                 >
-                  {card.cta}
+                  <motion.h2
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.2, duration: 0.6 }}
+                    className="text-5xl font-bold mb-4"
+                  >
+                    {card.title}
+                  </motion.h2>
+
+                  <motion.p
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.3, duration: 0.6 }}
+                    className="text-lg mb-8 text-gray-200"
+                  >
+                    {card.description}
+                  </motion.p>
+
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.5, duration: 0.6 }}
+                    className="flex items-center gap-4"
+                  >
+                    {card.cta}
+                  </motion.div>
                 </motion.div>
-              </motion.div>
+              </div>
             </div>
           ))}
         </div>
@@ -107,7 +109,7 @@ export default function FullscreenCarousel({
       {/* Controls */}
       <Button
         onClick={() => emblaApi?.scrollPrev()}
-        className="absolute top-1/2 left-4 -translate-y-1/2  rounded-full  h-8 w-8 z-20 hidden md:inline-flex"
+        className="absolute top-1/2 left-4 lg:left-8 xl:left-12 -translate-y-1/2  rounded-full  h-8 w-8 z-20 hidden md:inline-flex"
         variant="secondary"
       >
         <ArrowLeft className=" w-4 h-4" />
@@ -115,7 +117,7 @@ export default function FullscreenCarousel({
 
       <Button
         onClick={() => emblaApi?.scrollNext()}
-        className="absolute top-1/2 right-4 -translate-y-1/2 z-20 rounded-full  h-8 w-8  hidden md:inline-flex"
+        className="absolute top-1/2 right-4 lg:right-8 xl:right-12 -translate-y-1/2 z-20 rounded-full  h-8 w-8  hidden md:inline-flex"
         variant="secondary"
       >
         <ArrowRight className=" w-4 h-4" />

@@ -55,12 +55,12 @@ export default function Providers({ children }: { children: React.ReactNode }) {
             transition={{ duration: 0.8 }}
           >
             <motion.div
-              initial={{ x: -500, opacity: 0 }}
-              animate={{ x: 500, opacity: 1 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
               transition={{
                 duration: 2,
                 repeat: Infinity,
-                repeatType: "loop",
+                repeatType: "mirror",
               }}
             >
               <Image
