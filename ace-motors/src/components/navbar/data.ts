@@ -1,7 +1,7 @@
-export const vehicles = [
+export const navbarVehicles = [
   {
     label: "Velocity ZR",
-    id: "velocity-zr",
+    id: "harley-x440",
     type: "bike",
     image: "/images/harley.avif",
     startingPrice: 1800,
@@ -31,7 +31,9 @@ export const vehicles = [
     startingPrice: 34000,
   },
 ];
-export const sections = [
+
+
+export const navbarSections = [
   {
     label: "Visit",
     href: "/visit",
@@ -116,5 +118,5 @@ export const sections = [
   },
 ];
 
-export type VechilePreviewNavigatorProps = (typeof vehicles)[number];
-export type SectionPreviewNavigatorProps = (typeof sections)[number];
+export type VechilePreviewNavigatorProps = (typeof navbarVehicles)[number];
+export type SectionPreviewNavigatorProps = (typeof navbarSections)[number];

@@ -131,3 +131,16 @@
   font-family: "custom-medium";
   src: url("../../public/fonts/medium.woff2");
 }
+
+.hide-scrollbar {
+  /* 1. For IE and Edge */
+  -ms-overflow-style: none;
+
+  /* 2. For Firefox */
+  scrollbar-width: none;
+}
+
+/* 3. For Chrome, Safari, and Opera (WebKit) */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}

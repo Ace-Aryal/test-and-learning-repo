@@ -1,6 +1,7 @@
 import React from "react";
 import FullscreenCarousel from "./carousel";
 import { Button } from "../ui/button";
+// Todo add links here and use the actual bikes and cars slug in the links
 const cards = [
   {
     title: "The All-New Velocity ZR",

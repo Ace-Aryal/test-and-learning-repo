@@ -9,9 +9,9 @@ import Link from "next/link";
 import { Button } from "../ui/button";
 import {
   SectionPreviewNavigatorProps,
-  sections,
+  navbarSections as sections,
   VechilePreviewNavigatorProps,
-  vehicles,
+  navbarVehicles as vehicles,
 } from "./data";
 
 export default function PreviewNavigator() {
