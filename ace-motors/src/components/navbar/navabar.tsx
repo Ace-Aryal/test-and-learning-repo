@@ -10,6 +10,7 @@ import { Logo } from "../ui/logo";
 import { TbMenu } from "react-icons/tb";
 import { Button } from "../ui/button";
 import PreviewNavigator from "./preview-navigator";
+import { usePathname } from "next/navigation";
 export default function Navbar() {
   const heroContext = useContext(HeroContext);
 
@@ -17,7 +18,7 @@ export default function Navbar() {
   const [isHoveringHeader, setIsHoveringHeader] = useState(false);
   const [visible, setVisible] = useState(true);
   const lastScrollY = useRef(0);
-
+  const pathname = usePathname();
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
@@ -78,16 +79,24 @@ export default function Navbar() {
           {/* Logo */}
           <nav className="hidden lg:flex">
             <ul className="flex space-x-2">
-              {nonPreviewLinks.map((item) => (
-                <li key={item.name}>
-                  <Link
-                    className="drop-shadow-lg   rounded-xl px-3 py-2 transition-colors font-medium"
-                    href={item.href}
-                  >
-                    {item.name}
-                  </Link>
-                </li>
-              ))}
+              {nonPreviewLinks.map((item) => {
+                const isActive = pathname.includes(item.href);
+                return (
+                  <li key={item.name}>
+                    <Link
+                      className={cn(
+                        "  rounded-xl px-3 py-2 transition-colors font-medium",
+                        {
+                          "bg-gray-100 ": isActive,
+                        }
+                      )}
+                      href={item.href}
+                    >
+                      {item.name}
+                    </Link>
+                  </li>
+                );
+              })}
             </ul>
           </nav>
         </div>

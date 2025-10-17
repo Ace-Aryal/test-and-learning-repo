@@ -8,14 +8,13 @@ export const bikesData = [
       { name: "Silver", code: "#C0C0C0" },
     ],
     images: ["/images/harley.avif", "/images/harley-silver.avif"],
-    baseFeatures: [
-      {
-        fuelTankCapacity: "13.1 L",
-        engine: "749cc, Liquid-cooled, 47 HP",
-        torque: "59 Nm",
-        make: "2025",
-      },
-    ],
+    baseFeatures: {
+      fuelTankCapacity: "13.1 L",
+      engine: "749cc, Liquid-cooled, 47 HP",
+      torque: "59 Nm",
+      make: "2025",
+    },
+
     variants: [
       {
         name: "Standard",
@@ -53,14 +52,12 @@ export const bikesData = [
       { name: "Dark Knight", code: "#111111" },
     ],
     images: ["/images/harley.avif", "/images/harley-silver.avif"],
-    baseFeatures: [
-      {
-        fuelTankCapacity: "11 L",
-        engine: "155cc, Liquid-cooled, 18.4 HP",
-        torque: "14.2 Nm",
-        make: "2025",
-      },
-    ],
+    baseFeatures: {
+      fuelTankCapacity: "11 L",
+      engine: "155cc, Liquid-cooled, 18.4 HP",
+      torque: "14.2 Nm",
+      make: "2025",
+    },
     variants: [
       {
         name: "Standard",
@@ -98,14 +95,12 @@ export const bikesData = [
       { name: "Black", code: "#000000" },
     ],
     images: ["/images/harley.avif", "/images/harley-silver.avif"],
-    baseFeatures: [
-      {
-        fuelTankCapacity: "14 L",
-        engine: "399cc, Parallel Twin, 47 HP",
-        torque: "38 Nm",
-        make: "2025",
-      },
-    ],
+    baseFeatures: {
+      fuelTankCapacity: "14 L",
+      engine: "399cc, Parallel Twin, 47 HP",
+      torque: "38 Nm",
+      make: "2025",
+    },
     variants: [
       {
         name: "Standard",
@@ -143,14 +138,12 @@ export const bikesData = [
       { name: "Rebel Blue", code: "#0033FF" },
     ],
     images: ["/images/harley.avif"],
-    baseFeatures: [
-      {
-        fuelTankCapacity: "13 L",
-        engine: "349cc, Air-cooled, 20 HP",
-        torque: "27 Nm",
-        make: "2025",
-      },
-    ],
+    baseFeatures: {
+      fuelTankCapacity: "13 L",
+      engine: "349cc, Air-cooled, 20 HP",
+      torque: "27 Nm",
+      make: "2025",
+    },
     variants: [
       {
         name: "Retro",
@@ -188,14 +181,12 @@ export const bikesData = [
       { name: "Black", code: "#000000" },
     ],
     images: ["/images/harley.avif"],
-    baseFeatures: [
-      {
-        fuelTankCapacity: "13.5 L",
-        engine: "248cc, Single Cylinder, 30 HP",
-        torque: "24 Nm",
-        make: "2025",
-      },
-    ],
+    baseFeatures: {
+      fuelTankCapacity: "13.5 L",
+      engine: "248cc, Single Cylinder, 30 HP",
+      torque: "24 Nm",
+      make: "2025",
+    },
     variants: [
       {
         name: "Standard",
@@ -236,20 +227,19 @@ export const carsData = [
       { name: "White Pearl", code: "#FFFFFF" },
       { name: "Silver Metallic", code: "#C0C0C0" },
     ],
-    images: ["/images/car1.avif", "/images/mcqueen.jpg"],
-    baseFeatures: [
-      {
-        fuelTankCapacity: "50 L",
-        engine: "1.8L Petrol, 138 HP",
-        torque: "173 Nm",
-        make: "2025",
-      },
-    ],
+    images: ["/images/mcqueen.jpg", "/images/mcqueen.jpg"],
+    baseFeatures: {
+      fuelTankCapacity: "50 L",
+      engine: "1.8L Petrol, 138 HP",
+      torque: "173 Nm",
+      make: "2025",
+    },
+
     variants: [
       {
         name: "G MT",
         price: 5500000,
-        image: "/images/car1.avif",
+        image: "/images/mcqueen.jpg",
         features: [
           "LED Projector Headlights",
           "Push Start Button",
@@ -281,20 +271,18 @@ export const carsData = [
       { name: "Lunar Silver", code: "#C0C0C0" },
       { name: "Radiant Red", code: "#FF0000" },
     ],
-    images: ["/images/car1.avif", "/images/mcqueen.jpg"],
-    baseFeatures: [
-      {
-        fuelTankCapacity: "40 L",
-        engine: "1.5L i-VTEC, 121 HP",
-        torque: "145 Nm",
-        make: "2025",
-      },
-    ],
+    images: ["/images/mcqueen.jpg", "/images/mcqueen.jpg"],
+    baseFeatures: {
+      fuelTankCapacity: "40 L",
+      engine: "1.5L i-VTEC, 121 HP",
+      torque: "145 Nm",
+      make: "2025",
+    },
     variants: [
       {
         name: "V MT",
         price: 4800000,
-        image: "/images/car1.avif",
+        image: "/images/mcqueen.jpg",
         features: [
           "Keyless Entry",
           "Rear Parking Sensor",
@@ -327,19 +315,17 @@ export const carsData = [
       { name: "Polar White", code: "#FFFFFF" },
     ],
     images: ["/images/mcqueen.jpg"],
-    baseFeatures: [
-      {
-        fuelTankCapacity: "50 L",
-        engine: "1.5L Petrol, 115 HP",
-        torque: "144 Nm",
-        make: "2025",
-      },
-    ],
+    baseFeatures: {
+      fuelTankCapacity: "50 L",
+      engine: "1.5L Petrol, 115 HP",
+      torque: "144 Nm",
+      make: "2025",
+    },
     variants: [
       {
         name: "S MT",
         price: 4800000,
-        image: "/images/car1.avif",
+        image: "/images/mcqueen.jpg",
         features: [
           "Panoramic Sunroof",
           "10.25-inch Infotainment Display",
@@ -371,20 +357,18 @@ export const carsData = [
       { name: "Red", code: "#FF0000" },
       { name: "Grey", code: "#808080" },
     ],
-    images: ["/images/car1.avif"],
-    baseFeatures: [
-      {
-        fuelTankCapacity: "45 L",
-        engine: "1.2L Petrol, 83 HP",
-        torque: "115 Nm",
-        make: "2025",
-      },
-    ],
+    images: ["/images/mcqueen.jpg"],
+    baseFeatures: {
+      fuelTankCapacity: "45 L",
+      engine: "1.2L Petrol, 83 HP",
+      torque: "115 Nm",
+      make: "2025",
+    },
     variants: [
       {
         name: "HTK+",
         price: 4200000,
-        image: "/images/car1.avif",
+        image: "/images/mcqueen.jpg",
         features: [
           "Smart Entry",
           "8-inch Touchscreen",
@@ -416,20 +400,18 @@ export const carsData = [
       { name: "Pearl Arctic White", code: "#FFFFFF" },
       { name: "Solid Fire Red", code: "#FF2400" },
     ],
-    images: ["/images/car1.avif"],
-    baseFeatures: [
-      {
-        fuelTankCapacity: "37 L",
-        engine: "1.2L Petrol, 90 HP",
-        torque: "113 Nm",
-        make: "2025",
-      },
-    ],
+    images: ["/images/mcqueen.jpg"],
+    baseFeatures: {
+      fuelTankCapacity: "37 L",
+      engine: "1.2L Petrol, 90 HP",
+      torque: "113 Nm",
+      make: "2025",
+    },
     variants: [
       {
         name: "VXi",
         price: 3300000,
-        image: "/images/car1.avif",
+        image: "/images/mcqueen.jpg",
         features: [
           "Dual Airbags",
           "ABS with EBD",
@@ -462,19 +444,17 @@ export const carsData = [
       { name: "Aquamarine", code: "#00CED1" },
     ],
     images: ["/images/mcqueen.jpg"],
-    baseFeatures: [
-      {
-        fuelTankCapacity: "57 L",
-        engine: "2.0L Turbo Petrol, 150 HP",
-        torque: "320 Nm",
-        make: "2025",
-      },
-    ],
+    baseFeatures: {
+      fuelTankCapacity: "57 L",
+      engine: "2.0L Turbo Petrol, 150 HP",
+      torque: "320 Nm",
+      make: "2025",
+    },
     variants: [
       {
         name: "AX Opt",
         price: 4800000,
-        image: "/images/car1.avif",
+        image: "/images/mcqueen.jpg",
         features: [
           "Removable Roof",
           "4x4 Drivetrain",
@@ -506,20 +486,18 @@ export const carsData = [
       { name: "Daytona Grey", code: "#555555" },
       { name: "Flame Red", code: "#E34234" },
     ],
-    images: ["/images/car1.avif"],
-    baseFeatures: [
-      {
-        fuelTankCapacity: "44 L",
-        engine: "1.2L Turbo Petrol, 120 HP",
-        torque: "170 Nm",
-        make: "2025",
-      },
-    ],
+    images: ["/images/mcqueen.jpg"],
+    baseFeatures: {
+      fuelTankCapacity: "44 L",
+      engine: "1.2L Turbo Petrol, 120 HP",
+      torque: "170 Nm",
+      make: "2025",
+    },
     variants: [
       {
         name: "XZ+",
         price: 4200000,
-        image: "/images/car1.avif",
+        image: "/images/mcqueen.jpg",
         features: [
           "Dual Airbags",
           "ABS with EBD",
@@ -552,19 +530,17 @@ export const carsData = [
       { name: "Typhoon Silver", code: "#C0C0C0" },
     ],
     images: ["/images/mcqueen.jpg"],
-    baseFeatures: [
-      {
-        fuelTankCapacity: "45 L",
-        engine: "1.5L Turbo Petrol, 160 HP",
-        torque: "253 Nm",
-        make: "2025",
-      },
-    ],
+    baseFeatures: {
+      fuelTankCapacity: "45 L",
+      engine: "1.5L Turbo Petrol, 160 HP",
+      torque: "253 Nm",
+      make: "2025",
+    },
     variants: [
       {
         name: "SX MT",
         price: 5000000,
-        image: "/images/car1.avif",
+        image: "/images/mcqueen.jpg",
         features: [
           "Voice Commands",
           "Ventilated Seats",
@@ -596,20 +572,18 @@ export const carsData = [
       { name: "Crystal Blue", code: "#007BA7" },
       { name: "Carbon Steel", code: "#333333" },
     ],
-    images: ["/images/car1.avif"],
-    baseFeatures: [
-      {
-        fuelTankCapacity: "45 L",
-        engine: "1.0L TSI Petrol, 115 HP",
-        torque: "178 Nm",
-        make: "2025",
-      },
-    ],
+    images: ["/images/mcqueen.jpg"],
+    baseFeatures: {
+      fuelTankCapacity: "45 L",
+      engine: "1.0L TSI Petrol, 115 HP",
+      torque: "178 Nm",
+      make: "2025",
+    },
     variants: [
       {
         name: "Active MT",
         price: 4700000,
-        image: "/images/car1.avif",
+        image: "/images/mcqueen.jpg",
         features: [
           "LED DRLs",
           "8-inch Infotainment Display",
@@ -642,19 +616,17 @@ export const carsData = [
       { name: "Ash Grey", code: "#808080" },
     ],
     images: ["/images/mcqueen.jpg"],
-    baseFeatures: [
-      {
-        fuelTankCapacity: "N/A (Electric)",
-        engine: "Electric Motor, 176 HP",
-        torque: "280 Nm",
-        make: "2025",
-      },
-    ],
+    baseFeatures: {
+      fuelTankCapacity: "N/A (Electric)",
+      engine: "Electric Motor, 176 HP",
+      torque: "280 Nm",
+      make: "2025",
+    },
     variants: [
       {
         name: "Excite",
         price: 6200000,
-        image: "/images/car1.avif",
+        image: "/images/mcqueen.jpg",
         features: [
           "8-inch Touchscreen",
           "Digital Cluster",
@@ -679,4 +651,4 @@ export const carsData = [
     notes: ["Feature-rich electric SUV with solid range."],
   },
 ];
-export type Motor = typeof bikesData[number];
+export type Motor = (typeof bikesData)[number];

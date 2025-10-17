@@ -1,7 +1,7 @@
-import MotorsGrid from "@/components/motors/motors-grid";
+import MotorsPage from "@/components/motors/motors-page";
 import { bikesData } from "@/data/motors";
 import React from "react";
 
 export default function BikesPage() {
-  return <MotorsGrid motors={bikesData} />;
+  return <MotorsPage motors={bikesData} />;
 }
