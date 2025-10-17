@@ -61,14 +61,14 @@ export default function ScrollVideoReversible() {
         justifyContent: "center",
         alignItems: "center",
       }}
-      className="bg-gradient-to-b from-zinc-800  to-gray-50 py-12"
+      className="bg-gradient-to-b from-zinc-800  to-gray-50 py-12 px-1"
       ref={containerRef}
     >
       <MaxWidthWrapper className="flex w-full flex-col items-center">
         <video
           ref={videoRef}
           src="/videos/car-3d.mp4"
-          className="rounded-xl"
+          className="rounded-xl h-screen object-cover sm:h-auto "
           muted
           preload="auto"
         />
