@@ -67,7 +67,7 @@ const TailwindHorizontalScroll = () => {
       {/* The content wrapper must be wider than the viewport (w-max) and use flexbox 
         with no wrapping (flex-nowrap) to force horizontal overflow.
       */}
-      <div className="flex flex-nowrap w-max min-h-full" ref={wrapperRef}>
+      <div className="flex flex-nowrap w-max min-h-full gap-8" ref={wrapperRef}>
         {highlights.map((motor) => (
           <div
             key={motor.id}
@@ -78,9 +78,9 @@ const TailwindHorizontalScroll = () => {
               alt={motor.label}
               width={500}
               height={500}
-              className="w-7/10 h-7/10 object-cover "
+              className="md:w-7/10 md:h-7/10 object-cover "
             />
-            <div className="flex-1 flex flex-col gap-2 sm:gap-3 items-center py-2 ">
+            <div className="flex-1 flex flex-col gap-2 sm:gap-3 items-center py-2 text-center">
               <h2 className=" text-2xl tracking-tight font-semibold ">
                 {motor.description}
               </h2>
