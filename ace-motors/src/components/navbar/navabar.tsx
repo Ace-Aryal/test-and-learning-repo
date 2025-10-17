@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import React, { use, useContext, useEffect, useState } from "react";
+import React, { use, useContext, useEffect, useRef, useState } from "react";
 import { HeroContext } from "../providers/providers";
 import { cn } from "@/lib/utils";
 import { Menu, X } from "lucide-react"; // simple icons
@@ -15,6 +15,29 @@ export default function Navbar() {
 
   const [isOpen, setIsOpen] = useState(false);
   const [isHoveringHeader, setIsHoveringHeader] = useState(false);
+  const [visible, setVisible] = useState(true);
+  const lastScrollY = useRef(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+
+      // Hide navbar when scrolling down
+      if (currentScrollY > lastScrollY.current && currentScrollY > 100) {
+        setVisible(false);
+      } else {
+        // Show navbar when scrolling up
+        setVisible(true);
+      }
+
+      lastScrollY.current = currentScrollY;
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   const nonPreviewLinks = [
     { name: "Bikes", href: "/bikes" },
     { name: "Cars", href: "/cars" },
@@ -28,11 +51,12 @@ export default function Navbar() {
       onMouseOver={() => setIsHoveringHeader(true)}
       onMouseLeave={() => setIsHoveringHeader(false)}
       className={cn(
-        "fixed top-0 lg:top-4 z-50 max-w-7xl mx-auto font-[custom-regular] items-center inset-x-0 lg:inset-x-6 h-20  lg:rounded-xl shadow-lg   lg:border lg:border-gray-200 hover:bg-background group hover:text-foreground  transition-all  bg-background text-foreground",
+        "fixed top-0   lg:top-4 z-50 max-w-7xl mx-auto font-[custom-regular] items-center inset-x-0 lg:inset-x-6 h-20  lg:rounded-xl shadow-lg   lg:border lg:border-gray-200 hover:bg-background group hover:text-foreground  transition-all  bg-background text-foreground",
         {
           "bg-transparent text-background  lg:border-transparent shadow-none":
             heroContext && heroContext.isShowingHero,
           "bg-background text-foreground lg:rounded-b-none": isOpen,
+          hidden: !visible,
         }
       )}
     >
