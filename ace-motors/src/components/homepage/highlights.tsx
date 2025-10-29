@@ -28,7 +28,7 @@ const TailwindHorizontalScroll = () => {
 
     // Calculate the distance to scroll horizontally:
     // (Total content width) - (One Viewport width)
-    const scrollDistance = wrapperWidth - window.innerWidth;
+    const scrollDistance = wrapperWidth - window.innerWidth + 768;
 
     // --- GSAP Animation Setup ---
 
