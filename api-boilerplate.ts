@@ -1,5 +1,6 @@
 export async function GET(request) {
   try {
+        // const { searchParams } = new URL(request.url);
     throw new Error("Something broke");
   } catch (error) {
     console.error(error);
