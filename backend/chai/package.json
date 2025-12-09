@@ -2,10 +2,13 @@
   "name": "chai",
   "version": "1.0.0",
   "description": "",
+  "private": true,
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
+    "start": "node index.js",
+    "dev": "vercel dev",
+    "build": "tsc"
   },
   "keywords": [],
   "author": "",

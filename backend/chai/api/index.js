@@ -3,7 +3,7 @@ import "dotenv/config";
 const app = new express();
 const port = process.env.PORT;
 app.get("/", (req, res) => {
-  res.send("Hello there");
+  res.send("Hello there from vercel");
 });
 
 app.get("/json", (req, res) => {
@@ -12,6 +12,6 @@ app.get("/json", (req, res) => {
   });
 });
 
-app.listen(port, () => {
-  console.log(`App listening at port ${port}`);
-});
+// app.listen(port, () => {
+//   console.log(`App listening at port ${port}`);
+// });
