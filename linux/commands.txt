@@ -1,0 +1,24 @@
+0. Recursiverly delete all files and folders inside folder: rm -r foldername
+1.make nested and multiple dirs: mkdir -p  website/static/{css,js} 
+2. pwd : print working directory
+3. copy / duplicate : cp original_copy.txt coyo_folder/copy1.txt 
+                    :cp source.txt destination.txt
+5. mover: mv source.txt /folder_name
+6. rename : mv original.txt renamed.txt
+7. cat : shows all the content inside file
+8. edit file : nano filename.txt
+9. find text : grep "search_item" commands.txt 
+10: find file in current directory: find . -name "commands.txt"
+./commands.txt
+11. display all processes: ps aux
+12. find if process (node) is running or not : ps aux | grep node
+13. get know about processes and memory all in one command: top or htop
+14. clear screen ctrl + l
+15. get all running socket ports and seearch with grep : ss -tuln | grep 3000
+CURL: 
+ flags: -I --> headers ,
+  -o filename.json --> save in file
+other nice:
+apt install unzip 
+unzip zipped.zip
+uptime
