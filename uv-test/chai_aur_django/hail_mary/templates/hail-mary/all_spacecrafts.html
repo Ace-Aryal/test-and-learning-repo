@@ -1,0 +1,21 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spacecrafts</title>
+</head>
+<body>
+    <h1>Spacecrafts List</h1>
+{% for spacecraft in spacecrafts %}
+<div>   
+<h2>  {{spacecraft.name}}  </h2>
+<a href="{% url 'craft-details' spacecraft.id %}">
+
+<img  style="object-fit: contain; border: 1px solid black; padding:2px; " src=" {{ spacecraft.image.url }}" alt="{{ spacecraft.name }}" width="300" height="200">    
+</a>
+</div>
+{% endfor %}
+</body>
+</html>
