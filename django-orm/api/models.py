@@ -74,3 +74,24 @@ class Sale(models.Model):
     )
     income = models.DecimalField(max_digits=10, decimal_places=2)
     datetime = models.DateTimeField(auto_now=True)
+
+
+class Staff(models.Model):
+    id = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
+    # undet the hood same junction table is created
+    name = models.CharField(max_length=100, default="")
+    # through for extra fields junction table and also gives easier query in ORM like staff.restaurants.all() but if do not use this field and rely only on staff restaurnts
+    # we have to do StaffRestaurants.objects.all(user=user)
+    restaurants = models.ManyToManyField(
+        to=Restaurant, related_name="staffs", through="StaffRestaurant"
+    )
+
+    def __str__(self):
+        return self.name
+
+
+# many to many relation via junction table to one to many realation, the reverse tables store one to many but this table record stores value like 1 to 1
+class StaffRestaurant(models.Model):
+    staff = models.ForeignKey(Staff, on_delete=models.CASCADE)
+    restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
+    salary = models.FloatField(null=True)

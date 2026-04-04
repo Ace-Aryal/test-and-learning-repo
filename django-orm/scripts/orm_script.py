@@ -1,4 +1,4 @@
-from api.models import Restaurant, User, Rating, Sale
+from api.models import Restaurant, User, Rating, Sale, Staff
 from django.db import connection
 from django.db.models.functions import Lower
 
@@ -58,8 +58,8 @@ def run():
     #     restaurant=restaurant, user=user1, rating=4
     # )
     # print(connection.queries, rating, "rating", created, "created")
-    rating = Rating.objects.create(user=user1, restaurant=restaurant, rating=9)
-    rating.full_clean()
+    # rating = Rating.objects.create(user=user1, restaurant=restaurant, rating=9)
+    # rating.full_clean()
 
     # note : use can use queryset.update() to update fields
     restaurants = Restaurant.objects.filter(name__icontains="a")
@@ -89,5 +89,34 @@ def run():
 
     # ----------- filtering by fk ----------------
     # performs join and filtering
-    ratings = Rating.objects.filter(restaurant__name__istartswith="n")
-    print(ratings)
+    # ratings = Rating.objects.filter(restaurant__name__istartswith="n")
+    # print(ratings)
+    #
+    # ------------------- Many to Many Relationships --------------------------
+    # Forward way
+    # staffWick, created = Staff.objects.get_or_create(name="John Wick")
+    # methods: add, remove, count, all, set, clear, create, filter
+    # print(staffWick.restaurants.all())
+    # create a new single realtion : add()
+    # staffWick.restaurants.add(Restaurant.objects.first())
+    # print(staffWick.restaurants.all())
+    # Remove a relation : remove()
+    # staffWick.restaurants.remove(Restaurant.objects.first())
+    # reset reltions assotions: removes previous and adds all the new provided : set()
+    # staffWick.restaurants.set(Restaurant.objects.all()[:5])
+    # remove all relations : clear()
+    # staffWick.restaurants.clear()
+    # filter
+    # filtered = staffWick.restaurants.filter(
+    #     restaurant_type=Restaurant.TypeChoices.NEPALI
+    # )
+    # for item in list(filtered):
+    #     print(item.name)
+    # print(staffWick.restaurants.count())
+    # Reverse way: can use all above methods
+    restaurant = Restaurant.objects.first()
+    staffs = restaurant.staffs.all()
+    # restaurant.staffs.create(name="John Banega Don")
+    restaurant.staffs.set(Staff.objects.all()[:5])
+    for staff in list(staffs):
+        print(staff.name)
