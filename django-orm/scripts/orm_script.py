@@ -1,6 +1,7 @@
-from api.models import Restaurant, User, Rating, Sale, Staff
+from api.models import Restaurant, User, Rating, Sale, Staff, StaffRestaurant
 from django.db import connection
 from django.db.models.functions import Lower
+import random
 
 
 def run():
@@ -28,7 +29,7 @@ def run():
     # Restaurant.objects.count()
     # -------------- Foregign keys querying and CRUD  ----------------------
     # restaurant1 = Restaurant.objects.first()
-    user1 = User.objects.first()
+    # user1 = User.objects.first()
     # Rating.objects.create(
     #     user=user1, restaurant=restaurant1, rating=5, review="Just Tasty!"
     # )
@@ -43,7 +44,7 @@ def run():
 
     # --------------------updating-----------------
     # 1. save() method
-    restaurant = Restaurant.objects.first()
+    # restaurant = Restaurant.objects.first()
     # restaurant.name = "Krishu Thakali Home"
     # restaurant.save()
     # print(restaurant.ratings.all())
@@ -62,7 +63,7 @@ def run():
     # rating.full_clean()
 
     # note : use can use queryset.update() to update fields
-    restaurants = Restaurant.objects.filter(name__icontains="a")
+    # restaurants = Restaurant.objects.filter(name__icontains="a")
     # or
     # Restaurant.objects.filter(name__icontains="a").update(name="Krishy Voganayalaya")
     # restaurants.update(name="Krishu Voganalaya")
@@ -73,13 +74,13 @@ def run():
     # qs.delete()
     # Restaurant.objects.filter(name__icontains="a").delete() : deletes all filtered restaurants
     # interseting
-    Restaurant.objects.filter(
-        name__lt="E"
-    )  #: give sall the data which name starts with A,B,C and D and lowercases also for sqlite and in postgre doesnt give lowercases as they come later in ASCII table
+    # Restaurant.objects.filter(
+    #     name__lt="E"
+    # )  #: give sall the data which name starts with A,B,C and D and lowercases also for sqlite and in postgre doesnt give lowercases as they come later in ASCII table
     # ----------------- order by -------------------------------
-    restaurants = Restaurant.objects.order_by(
-        Lower("name")
-    )  # asc: default : Lower : 1st lowercases the databse name and then orders so no case problems
+    # restaurants = Restaurant.objects.order_by(
+    #     Lower("name")
+    # )  # asc: default : Lower : 1st lowercases the databse name and then orders so no case problems
     # restaurants = Restaurant.objects.order_by("name").reverse() : createes queryset for reverse in SQL query
     # restaurants = Restaurant.objects.order_by("-name") : same as above
     # --------------- limiting and offseting ---------------
@@ -114,9 +115,25 @@ def run():
     #     print(item.name)
     # print(staffWick.restaurants.count())
     # Reverse way: can use all above methods
-    restaurant = Restaurant.objects.first()
-    staffs = restaurant.staffs.all()
+    # restaurant = Restaurant.objects.first()
+    # staffs = restaurant.staffs.all()
+    # for staff in list(staffs):
+    #     print(staff.name)
+    # staffWick, created = Staff.objects.get_or_create(name="John Wick")
     # restaurant.staffs.create(name="John Banega Don")
-    restaurant.staffs.set(Staff.objects.all()[:5])
-    for staff in list(staffs):
-        print(staff.name)
+    # restaurant.staffs.set(Staff.objects.all()[:5])
+    # using .add() with through table to associate relation with restaurant and add fields to through table
+    # staffWick.restaurants.add(restaurant, through_defaults={"salary": 20_000})
+    # staffWick.restaurants.set(
+    #     Restaurant.objects.all()[:10],
+    #     # rand int runs for every relationship assotiation
+    #     through_defaults={"salary": random.randint(20_000, 30_000)},
+    # )
+
+    # ----------- optimizing through table --------------
+    jobs = StaffRestaurant.objects.prefetch_related("staff", "restaurant")
+    # N + 1 problem
+    for job in jobs:
+        print(job.staff.name)
+        print(job.salary)
+        print(job.restaurant.name)

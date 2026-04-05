@@ -95,3 +95,6 @@ class StaffRestaurant(models.Model):
     staff = models.ForeignKey(Staff, on_delete=models.CASCADE)
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
     salary = models.FloatField(null=True)
+
+    def __str__(self):
+        return f"{self.staff.name} - {self.restaurant.name} "
